@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/GO2COD_WD_03/static/css/main.61582230.css",
+    "main.js": "/GO2COD_WD_03/static/js/main.bfa2675e.js",
+    "index.html": "/GO2COD_WD_03/index.html",
+    "main.61582230.css.map": "/GO2COD_WD_03/static/css/main.61582230.css.map",
+    "main.bfa2675e.js.map": "/GO2COD_WD_03/static/js/main.bfa2675e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.61582230.css",
+    "static/js/main.bfa2675e.js"
+  ]
+}
