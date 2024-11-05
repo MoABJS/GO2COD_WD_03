@@ -32,8 +32,8 @@ button:hover {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 420px;
-  height: 630px;
+  width: 350px;
+  height: 550px;
   margin: auto;
   border-radius: 8px;
   padding: 20px;
@@ -111,17 +111,3 @@ button:hover {
   border: none;
   font-size: 26px;
 }
-
-@media only screen and (min-width: 320px) and (max-width: 480px) {
-  .calculator {
-    width: 350px;
-    height: 600px;
-  }
-}
-
-/* @media only screen and (min-width: 1024px) and (max-width: 1280px) {
-  .calculator {
-    width: 400px;
-    height: 700px;
-  }
-} */
