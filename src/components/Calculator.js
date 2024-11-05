@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 
 const Calculator = () => {
   const [inputValue, setInputValue] = useState("");
-  // const [result, setResult] = useState(0);
+  const [result, setResult] = useState("");
+  const [toggle, setToggle] = useState(false);
 
   const handleAC = () => {
     setInputValue("");
+    setResult("");
   };
 
   const handleDelete = () => {
@@ -19,53 +21,84 @@ const Calculator = () => {
   };
 
   const handleEqualTo = () => {
-    const numbers = inputValue.split(/[+\-*/%]/).map((num) => Number(num));
-    const operators = inputValue.replace(/[0-9]|\./g, "").split("");
-    console.log("numbers", numbers);
-    console.log("operators", operators);
-    let tempResult = numbers[0];
-    for (let i = 0; i < operators.length; i++) {
-      let nextNumber = numbers[i + 1];
-      switch (operators[i]) {
-        case "%":
-          tempResult = tempResult % nextNumber;
-          break;
-        case "/":
-          tempResult /= nextNumber;
-          break;
-        case "*":
-          tempResult *= nextNumber;
-          break;
-        case "-":
-          tempResult -= nextNumber;
-          break;
-        case "+":
-          tempResult += nextNumber;
-          break;
-        default:
-          break;
-      }
-    }
-    console.log("temp result", tempResult);
-    setInputValue(tempResult);
+    setInputValue(eval(inputValue));
+    setResult("");
   };
 
-  const handleNumberInput = (num) => {
-    setInputValue(inputValue + num);
-  };
-
-  const handleOperatorInput = (opr) => {
-    setInputValue(inputValue + opr);
+  const handleOnClick = (btn) => {
+    setInputValue(inputValue + btn);
   };
 
   useEffect(() => {
-    console.log("input value", inputValue);
-    console.log("input value length", inputValue.length);
-  }, [inputValue]);
+    console.log("toggle value", toggle);
+    const numbers = inputValue.length > 1 && inputValue.split(/[+\-*/%]/);
+    if (
+      inputValue.length > 2 &&
+      /[0-9]/.test(numbers[numbers.length - 1]) &&
+      numbers.length > 1
+    ) {
+      setResult(eval(inputValue));
+    }
+  }, [inputValue, toggle]);
 
   return (
-    <div className="calculator">
-      <input type="text" className="screen" value={inputValue} readOnly />
+    <div
+      className="calculator"
+      style={{ backgroundColor: toggle ? "white" : "black" }}
+    >
+      <div
+        className="theme"
+        style={{
+          backgroundColor: toggle ? "rgb(156, 155, 155)" : "rgb(55, 55, 55)",
+        }}
+      >
+        <button
+          onClick={() => setToggle(!toggle)}
+          className="toggler"
+          style={
+            toggle
+              ? {
+                  backgroundColor: "rgb(55, 55, 55)",
+                  transform: "translateX(100%)",
+                  color: "white",
+                }
+              : {
+                  backgroundColor: "rgb(156, 155, 155)",
+                  transform: "translateX(0)",
+                  color: "black",
+                }
+          }
+        >
+          {toggle ? "Dark" : "Light"}
+        </button>
+      </div>
+      <div className="screen">
+        <input
+          type="text"
+          className="calculation"
+          style={
+            toggle
+              ? { backgroundColor: "white", color: "black" }
+              : { backgroundColor: "black", color: "white" }
+          }
+          value={inputValue}
+          readOnly
+        />
+        {/[0-9]/.test(result) && (
+          <input
+            type="text"
+            className="result"
+            style={
+              toggle
+                ? { backgroundColor: "white", color: "black" }
+                : { backgroundColor: "black", color: "white" }
+            }
+            value={result}
+            readOnly
+          />
+        )}
+      </div>
+
       <div className="keys">
         <div className="row">
           <button onClick={handleAC} className="button ash">
@@ -74,78 +107,60 @@ const Calculator = () => {
           <button onClick={handleDelete} className="button ash">
             DEL
           </button>
-          <button
-            onClick={() => setInputValue(inputValue + "%")}
-            className="button ash"
-          >
+          <button onClick={() => handleOnClick("%")} className="button ash">
             %
           </button>
-          <button
-            onClick={() => handleOperatorInput("/")}
-            className="button orange"
-          >
+          <button onClick={() => handleOnClick("/")} className="button orange">
             /
           </button>
         </div>
         <div className="row">
-          <button onClick={() => handleNumberInput("7")} className="button">
+          <button onClick={() => handleOnClick("7")} className="button">
             7
           </button>
-          <button onClick={() => handleNumberInput("8")} className="button">
+          <button onClick={() => handleOnClick("8")} className="button">
             8
           </button>
-          <button onClick={() => handleNumberInput("9")} className="button">
+          <button onClick={() => handleOnClick("9")} className="button">
             9
           </button>
-          <button
-            onClick={() => handleOperatorInput("*")}
-            className="button orange"
-          >
+          <button onClick={() => handleOnClick("*")} className="button orange">
             *
           </button>
         </div>
         <div className="row">
-          <button onClick={() => handleNumberInput("4")} className="button">
+          <button onClick={() => handleOnClick("4")} className="button">
             4
           </button>
-          <button onClick={() => handleNumberInput("5")} className="button">
+          <button onClick={() => handleOnClick("5")} className="button">
             5
           </button>
-          <button onClick={() => handleNumberInput("6")} className="button">
+          <button onClick={() => handleOnClick("6")} className="button">
             6
           </button>
-          <button
-            onClick={() => handleOperatorInput("-")}
-            className="button orange"
-          >
+          <button onClick={() => handleOnClick("-")} className="button orange">
             -
           </button>
         </div>
         <div className="row">
-          <button onClick={() => handleNumberInput("1")} className="button">
+          <button onClick={() => handleOnClick("1")} className="button">
             1
           </button>
-          <button onClick={() => handleNumberInput("2")} className="button">
+          <button onClick={() => handleOnClick("2")} className="button">
             2
           </button>
-          <button onClick={() => handleNumberInput("3")} className="button">
+          <button onClick={() => handleOnClick("3")} className="button">
             3
           </button>
-          <button
-            onClick={() => handleOperatorInput("+")}
-            className="button orange"
-          >
+          <button onClick={() => handleOnClick("+")} className="button orange">
             +
           </button>
         </div>
         <div className="row">
-          <button
-            onClick={() => handleNumberInput("0")}
-            className="zero-button"
-          >
+          <button onClick={() => handleOnClick("0")} className="zero-button">
             0
           </button>
-          <button onClick={() => handleNumberInput(".")} className="button">
+          <button onClick={() => handleOnClick(".")} className="button">
             .
           </button>
           <button onClick={handleEqualTo} className="button orange">
